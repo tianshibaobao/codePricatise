@@ -19,14 +19,16 @@ package algorithm;
 * */
 public class StrongPasswordVerifier {
     public static void main (String args[]){
-        new StrongPasswordVerifier().strongPasswordChecker("Z2adjytjeyzyyu5e6xtjtaasdgdaa");
+        new StrongPasswordVerifier().strongPasswordChecker("gzee46Dffda");
     }
     public int strongPasswordChecker(String s) {
         boolean numExsit=false;
         boolean bigChaExsit=false;
         boolean smallChaExsit=false;
         boolean threeRegular=true;
+        int threeCount=0;
         boolean length=false;
+        int result=0;
         int[] flag=new int[s.length()];
         char[] sGroup=s.toCharArray();
         if(s.length()>=6&&s.length()<=20){
@@ -41,18 +43,28 @@ public class StrongPasswordVerifier {
             }else if((int)sGroup[i]>=(int)'0'&&(int)sGroup[i]<=(int)'9'){
                 numExsit=true;
             }
-        if (temQueue.add(sGroup[i]))
+        if (temQueue.add(sGroup[i])){
             threeRegular=false;
+            temQueue.clear();
+            threeCount++;
+        }
+        }
+        if (numExsit&&bigChaExsit&&smallChaExsit&&threeRegular&&length){
+            return 0;
+        }
+        if(!length){
+            result=s.length()-6>0?s.length()-20:6-s.length();
         }
         System.out.println(numExsit);
         System.out.println(bigChaExsit);
         System.out.println(smallChaExsit);
         System.out.println(threeRegular);
         System.out.println(length);
-
-        return 0;
+        System.out.println(threeCount);
+        return result;
     }
 
+    public
     class TemQueue{
         char[] tmp=new char[3];
         public boolean add(char ch){
@@ -60,6 +72,12 @@ public class StrongPasswordVerifier {
             tmp[1]=tmp[2];
             tmp[2]=ch;
             return tmp[0]==tmp[1]&&tmp[1]==tmp[2];
+        }
+
+        public void clear(){
+           tmp[0]='\0';
+            tmp[1]='\0';
+            tmp[2]='\0';
         }
     }
 }
